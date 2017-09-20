@@ -99,7 +99,7 @@ def _scale_enum(anchor, scales):
 if __name__ == '__main__':
     import time
     t = time.time()
-    a = generate_anchors()
+    a = generate_anchors(ratios=[1])
     print time.time() - t
     print a
     from IPython import embed; embed()

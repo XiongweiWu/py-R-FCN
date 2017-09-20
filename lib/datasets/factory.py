@@ -11,14 +11,21 @@ __sets = {}
 
 from datasets.pascal_voc import pascal_voc
 from datasets.coco import coco
+from datasets.wider_face import wider_face
+
 import numpy as np
 
 # Set up voc_<year>_<split> using selective search "fast" mode
-for year in ['2007', '2012', '0712']:
+for year in ['2007', '2012']:
     for split in ['train', 'val', 'trainval', 'test']:
         name = 'voc_{}_{}'.format(year, split)
         __sets[name] = (lambda split=split, year=year: pascal_voc(split, year))
 
+# Set up widface_<year>_<split>
+for year in ['2017']:
+    for split in ['train', 'val', 'trainval', 'test']:
+        name = 'widface_{}_{}'.format(year, split)
+        __sets[name] = (lambda split=split, year=year: wider_face(split, year)) 
 
 # Set up coco_2014_<split>
 for year in ['2014']:
