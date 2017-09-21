@@ -42,7 +42,7 @@ case $DATASET in
     TRAIN_IMDB="widface_2017_train"
     TEST_IMDB="widface_2017_val"
     PT_DIR="wider_face"
-    ITERS=110000
+    ITERS=5000
     ;;
   *)
     echo "No dataset given"
@@ -55,17 +55,8 @@ exec &> >(tee -a "$LOG")
 echo Logging output to "$LOG"
 
 
-time ./tools/train_net.py --gpu ${GPU_ID} \
-  --solver models/${PT_DIR}/${NET}/rfcn_end2end/solver_ohem.prototxt \
-  --weights data/imagenet_models/${NET}-model.caffemodel \
-  --imdb ${TRAIN_IMDB} \
-  --iters ${ITERS} \
-  --cfg experiments/cfgs/rfcn_end2end_ohem.yml \
-  ${EXTRA_ARGS}
-
-
 set +x
-NET_FINAL=`tail -n 100 ${LOG} | grep -B 1 "done solving" | grep "Wrote snapshot" | awk '{print $4}'`
+NET_FINAL=output/rfcn_end2end_ohem/widface_2017_train/resnet50_rfcn_ohem_iter_90000.caffemodel
 set -x
 
 time ./tools/test_net.py --gpu ${GPU_ID} \
